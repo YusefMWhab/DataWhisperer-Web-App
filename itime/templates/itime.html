@@ -1,0 +1,134 @@
+{% extends 'base.html' %}
+
+{% block title %}
+ITime
+{% endblock %}
+
+{% load static %}
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/itime.css' %}">
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/itime.js' %}" ></script>
+{% endblock %}
+
+{% block page_header %}ITime{% endblock %}
+
+{% block content %}
+<div id="main-container">
+    <div id="top-nav-actions">
+            <form id="export-form" action="{% url 'itime_mark_as_exported' %}" method="POST" style="display: inline;">
+    {% csrf_token %}
+    <button type="button" id="checkin-btn" class="action-btn btn-success" onclick="confirmExport()">
+        <i class="fa-solid fa-check"></i>
+        Mark as Exported
+    </button>
+</form>
+
+        <a href="{% url 'itime_export_excel' %}" id="save-excel-btn" class="action-btn btn-download-excel">
+            <i class="fas fa-file-excel me-1"></i>
+            Export ITime
+        </a>
+    </div>
+
+    {% if is_validation %}
+        <div id="form-container" class="container">
+            <h3>Check-in for Today</h3>
+            <br>
+            <form method="POST" action="{% url 'itime' %}">
+                {% csrf_token %}
+
+                <div class="form-group">
+
+                    <div class="input-group mb-2">
+                        <span class="input-group-text"><i class="fa fa-search"></i></span>
+                        <input type="text" id="project-search" class="form-control" placeholder="Search by project or manager name...">
+                    </div>
+
+                    <select name="projects" id="projects-select" class="form-control" multiple="multiple">
+                        {% regroup all_projects by field_manager as managers_list %}
+
+                        {% for group in managers_list %}
+                            <optgroup label="Manager: {{ group.grouper.name }}">
+                                
+                                {% for project in group.list %}
+                                    <option value="{{ project.id }}">
+                                        {{ project.name }} ({{ project.get_project_type_display }})
+                                    </option>
+                                {% endfor %}
+                            </optgroup>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <button type="submit" class="btn btn-primary">Check In</button>
+            </form>
+        </div>
+    {% endif %}
+
+    <div id="table-container" class="container">
+        {% if is_validation %}
+            <h3>{{ request.user.profile.full_name }} I-Time History</h3>
+        {% else %}
+            <h3>I-Time Records (Admin View)</h3>
+        {% endif %}
+        <table class="table">
+    <thead>
+        <tr>
+            {% if not is_validation %}
+                <th>Employee Name</th> 
+            {% endif %}
+            <th>Date</th>
+            <th>Projects</th>
+            <th>Status</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% if is_validation %}
+            {% for record in records %}
+            <tr>
+                <td>{{ record.date }}</td>
+                <td>
+                    {% for project in record.projects.all %}
+                        <span class="badge bg-info text-dark mb-1" style="font-size: 0.75rem">{{ project.name }}</span>
+                        {% if not forloop.last %}<br />{% endif %}
+                    {% empty %}
+                        <span class="text-muted">N/A</span>
+                    {% endfor %}
+                </td>
+                <td>
+                    <span class="badge {% if record.is_exported %}bg-success{% else %}bg-warning text-dark{% endif %}">
+                        {% if record.is_exported %}Exported{% else %}Pending{% endif %}
+                    </span>
+                </td>
+            </tr>
+            {% endfor %}
+        {% else %}
+            {% for record in all_records %}
+            <tr>
+                <td><strong>{{ record.employee.name }}</strong></td>
+                <td>{{ record.date }}</td>
+                <td>
+                    {% for project in record.projects.all %}
+                        <span class="badge bg-secondary mb-1" style="font-size: 0.75rem">{{ project.name }}</span>
+                        {% if not forloop.last %}<br />{% endif %}
+                    {% empty %}
+                        <span class="text-muted">N/A</span>
+                    {% endfor %}
+                </td>
+                <td>
+                    <span class="badge {% if record.is_exported %}bg-success{% else %}bg-warning text-dark{% endif %}">
+                        {% if record.is_exported %}Exported{% else %}Pending{% endif %}
+                    </span>
+                </td>
+            </tr>
+            {% endfor %}
+        {% endif %}
+    </tbody>
+</table>
+
+    </div>
+
+</div>
+{% endblock %}

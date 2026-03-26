@@ -1,0 +1,120 @@
+{% extends 'base.html' %}
+{% block title %} Time Check | Results {% endblock %}
+{% load static %}
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/timecheckResultsList.css' %}" />
+{% endblock %}
+{% block extra_js %}
+<script src="{% static 'js/timecheckResultsList.js' %}"></script>
+{% endblock %}
+{% block page_header %}Time Check{% endblock %}
+{% block content %}
+{% csrf_token %}
+<div id="main-container">
+    <div id="top-nav-actions">
+        <a href="{% url 'timecheck' %}"
+            class="btn-link {% if request.resolver_match.url_name != 'timecheckResultsList' %}btn-inactive{% endif %}">
+            <i class="fas fa-plus" style="margin-right: 5px"></i>
+            New Validation
+        </a>
+
+        <a href="{% url 'timecheckResultsList' %}"
+            class="btn-link {% if request.resolver_match.url_name != 'timecheck' %}btn-inactive{% endif %}">
+            <i class="fas fa-history" style="margin-right: 5px"></i>
+            All Results
+        </a>
+    </div>
+
+    <div id="table-container">
+        <h3>Validation History</h3>
+        <br>
+
+        <form method="GET" action="{% url 'timecheckResultsList' %}" class="p-3 mb-4 bg-light rounded shadow-sm">
+            <div class="form-row">
+                <div class="input-col">
+                    <label class="small fw-bold"><i class="fas fa-search me-1"></i>Project Name</label>
+                    <input type="text" name="project" class="form-control form-control-sm"
+                        placeholder="Search projects..." value="{{ request.GET.project }}" />
+                </div>
+
+                <div class="input-col">
+                    <label class="small fw-bold"><i class="fas fa-user-tie me-1"></i>Field Manager</label>
+                    <select name="field_manager" class="form-select form-select-sm">
+                        <option value="">-- All Managers --</option>
+                        {% for m in managers_list %}
+                        <option value="{{ m }}" {% if request.GET.field_manager == m %}selected{% endif %}>
+                            {{ m }}
+                        </option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="input-col">
+                    <label class="small fw-bold"><i class="fas fa-user me-1"></i>User</label>
+                    <select name="username" class="form-select form-select-sm">
+                        <option value="">-- All Users --</option>
+                        {% for u in users_list %}
+                        <option value="{{ u }}" {% if request.GET.username == u %}selected{% endif %}>
+                            {{ u }}
+                        </option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="input-col">
+                    <label class="small fw-bold"><i class="fas fa-calendar-alt me-1"></i>Date</label>
+                    <input type="date" name="date" class="form-control form-control-sm"
+                        value="{{ request.GET.date }}" />
+                </div>
+            </div>
+            <hr>
+            <div class="btn-row">
+                <div class="form-btn-container">
+                    <a href="{% url 'timecheckResultsList' %}" class="btn btn-secondary btn-sm" title="Reset">Clear</a>
+                    <button type="submit" class="btn btn-primary btn-sm w-100">
+                        Filter
+                    </button>
+                </div>
+            </div>
+        </form>
+        <div class="table-responsive">
+            <table>
+                <thead>
+                    <tr>
+                        <th>User</th>
+                        <th>Date</th>
+                        <th>Field Manager</th>
+                        <th>Project(s)</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for record in records %}
+                    <tr style="cursor: pointer"
+                        onclick="window.open(`{% url 'timecheckResultsDetail' record.pk %}`, '_blank');">
+                        <td>{{ record.user.profile.full_name }}</td>
+                        <td>{{ record.created_at|date:"Y-m-d H:i" }}</td>
+                        <td>{{ record.field_manager_name_snapshot }}</td>
+                        <td>
+                            {% for project in record.project_names %}
+                            <span class="badge bg-info text-dark mb-1" style="font-size: 0.75rem">{{ project }}</span>
+                            {% if not forloop.last %}
+                            <br />
+                            {% endif %} {% empty %}
+                            <span class="text-muted">N/A</span>
+                            {% endfor %}
+                        </td>
+                        <td>
+                            <a href="{% url 'timecheckexport_excel' record.id %}" class="btn-download-excel" onclick="event.stopPropagation()">
+                                <i class="fas fa-file-excel"></i>
+                                <span>Download Excel</span>
+                            </a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

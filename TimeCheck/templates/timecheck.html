@@ -1,0 +1,137 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Time Check
+{% endblock %}
+
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/timecheck.css' %}">
+{% endblock %}
+
+{% block extra_js %}
+<script src="https://cdn.jsdelivr.net/npm/danfojs@1.1.2/lib/bundle.min.js"></script>
+<script src="{% static 'js/timecheck.js' %}"></script>
+{% endblock %}
+
+{% block page_header %}Time Check{% endblock %}
+
+{% block content %}
+{% csrf_token %}
+<div id="main-container">
+
+    <div id="top-nav-actions">
+        <a href="{% url 'timecheck' %}" 
+            class="btn-link {% if request.resolver_match.url_name != 'timecheckResultsList' %}btn-inactive{% endif %}">
+            <i class="fas fa-plus" style="margin-right: 5px;"></i>
+            New Validation
+        </a>
+
+        <a href="{% url 'timecheckResultsList' %}" 
+            class="btn-link {% if request.resolver_match.url_name != 'timecheck' %}btn-inactive{% endif %}">
+            <i class="fas fa-history" style="margin-right: 5px;"></i>
+            All Results
+        </a>
+    </div>
+
+    <div id="error-container" style="display:none;" class="alert-error step-container"></div>
+    
+    <div class="step-container" id="step-upload">
+        <h3>Project Information</h3>
+        <br>
+        <div class="mapping-item" style="margin-bottom: 20px;">
+            <label><i class="fas fa-user-tie"></i> Select Field Manager</label>
+            <select id="field-manager-select" class="header-selector">
+                <option value="">-- Select Manager --</option>
+                {% for manager in fieldManagers %}
+                <option value="{{ manager.id }}">{{ manager.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <hr>
+        <br>
+
+        <h3>Uplad Excel file(s)</h3>
+        <div class="upload-area">
+            <input type="file" id="excel-files" multiple accept=".xlsx, .xls">
+            <p>Drag & drop or click to select files</p>
+
+        </div>
+        <div class="btn-container">
+            <button class="btn-main" onclick="uploadAndGetHeaders()">Read Headers</button>
+        </div>
+    </div>
+
+    <div class="step-container" id="step-mapping" style="display: none;">
+        <h3>Columns Selection</h3>
+        <br>
+        <p>Select the required columns</p>
+        <form id="mapping-form" class="mapping-form">
+
+
+            <div class="mapping-grid" id="mapping-container">
+            </div>
+
+            <div id="check-techniques-container">
+                <div class="check-techniques-item">
+                    <h4><i class="fas fa-sliders-h"></i> Overlap Sensitivity (Minutes)</h4>
+                    <div id="slider-container">
+                        <input type="range" id="overlap-sensitivity" name="sensitivity" min="0" max="10" value="0"
+                            step="1" oninput="document.getElementById('slid-output').value = this.value">
+                        <div id="output-container"><output id="slid-output">0</output> <span> min</span></div>
+                        <p class="help-text">Allowable gap between interviews before flagging as overlap.</p>
+                    </div>
+                </div>
+
+                <div class="check-techniques-item">
+                    <h4><i class="fas fa-microchip"></i> Validation Technique</h4>
+                    <div class="radio-group">
+                        <label class="radio-item">
+                            <input type="radio" name="technique" value="interview-length" checked>
+                            <span class="check-box-text">Interview-Length Technique</span>
+                        </label>
+
+                        <label class="radio-item">
+                            <input type="radio" name="technique" value="start-end-time">
+                            <span class="check-box-text">Start-End Time Technique</span>
+                        </label>
+
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="btn-container">
+                <button type="button" class="btn-main" onclick="validateUserMapping()">
+                    Confrim
+                </button>
+                <button class="btn-main" id="cancel-selection-btn" onclick="cancelSelection()">
+                    Cancel
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <div class="step-container" id="step-review" style="display: none;">
+        <h3>Review Your Selection</h3>
+        <br>
+        <div id="review-display" class="mapping-grid">
+        </div>
+        <hr>
+        <div class="btn-container">
+            <button class="btn-main" id="run-btn" onclick="startProcessing()">
+                Run Validations
+            </button>
+            <button class="btn-main" id="cancel-review-btn" onclick="cancelProcess()">
+                Cancel
+            </button>
+        </div>
+    </div>
+
+    <div id="error-container" style="display:none;" class="alert-error step-container"></div>
+
+</div>
+
+{% endblock %}

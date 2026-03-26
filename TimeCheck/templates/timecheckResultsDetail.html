@@ -1,0 +1,207 @@
+{% extends 'base.html' %}
+{% block title %} Time Check | Result | Details  {% endblock %}
+
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/timecheckResultsDetail.css' %}" />
+{% endblock %} 
+
+{% block extra_js %}
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+    try {
+        const rawLoi = {{ preview_loi_report|safe }};
+        window.loiDataFromDjango = (typeof rawLoi === 'string') ? JSON.parse(rawLoi) : rawLoi;
+    } 
+    catch (e) {
+        window.loiDataFromDjango = [];
+    }
+</script>
+<script src="{% static 'js/timecheckResultsDetail.js' %}"></script>
+
+{% endblock %}
+
+{% block page_header %}Time Check{% endblock %}
+
+{% block content %}
+{% csrf_token %}
+<div id="main-container">
+    <div id="top-nav-actions">
+        <button id="row-data-btn" class="action-btn btn-inactive" onclick="showRawData(this)">
+            <i class="fas fa-database me-1"></i>
+            Row Data
+        </button>
+        <button id="conflict-report-btn" class="action-btn" onclick="showConflictReport(this)">
+            <i class="fas fa-triangle-exclamation"></i>
+            Conflict Report
+        </button>
+        <button id="daily-count-report-btn" class="action-btn" onclick="showDailyCountReport(this)">
+            <i class="fas fa-calendar-check me-1"></i>
+            Daily Count Report
+        </button>
+        <button id="out-working-hours-report-btn" class="action-btn" onclick="showOutHoursReport(this)">
+            <i class="fas fa-clock me-1"></i>
+            Out-Hours Report
+        </button>
+        <button id="loi-report-btn" class="action-btn" onclick="showLOIReport(this)">
+            <i class="fas fa-chart-bar"></i>
+            LOI Report
+        </button>
+        <a href="{% url 'timecheckexport_excel' record_pk %}" id="save-excel-btn" class="action-btn btn-download-excel">
+            <i class="fas fa-file-excel me-1"></i>
+            Download Excel
+        </a>
+    </div>
+
+    <div class="table-container" id="row-data-container">
+        <h3>Raw Data</h3>
+        <br />
+        <div class="table-responsive">
+            <table>
+                <thead>
+                    <tr>
+                        {% if preview_row_data %}
+                            {% for key in preview_row_data.0.keys %}
+                                <th>{{ key }}</th>
+                            {% endfor %}
+                        {% endif %}
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for row in preview_row_data %}
+                    <tr>
+                        {% for value in row.values %}
+                        <td>{{ value }}</td>
+                        {% endfor %}
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="100%" class="text-center text-muted py-4">
+                            No data available to preview.
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        {% if query.raw_data|length > 10 %}
+        <div class="text-center mt-2">
+            <small class="text-muted">Showing 10 of {{ record.raw_data|length }} rows. Download Excel for full
+                data.</small>
+        </div>
+        {% endif %}
+    </div>
+
+    <div class="table-container" id="conflict-report-container" style="display: none;">
+        <h3>Conflict Report</h3>
+        <br/>
+        <div class="table-responsive">
+            <table>
+                <thead>
+                    <tr>
+                        {% if preview_conflict_report %}
+                            {% for key in preview_conflict_report.0.keys %}
+                                <th>{{ key }}</th>
+                            {% endfor %}
+                        {% endif %}
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for row in preview_conflict_report %}
+                    <tr>
+                        {% for value in row.values %}
+                        <td>{{ value }}</td>
+                        {% endfor %}
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="100%" class="text-center text-muted py-4">
+                            No data available to preview.
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="table-container" id="dailty-count-container" style="display: none;">
+        <h3>Daily Count Report</h3>
+        <br/>
+        <div class="table-responsive">
+            <table>
+                <thead>
+                    <tr>
+                        {% if preview_daily_count_report %}
+                            {% for key in preview_daily_count_report.0.keys %}
+                                <th>{{ key }}</th>
+                            {% endfor %}
+                        {% endif %}
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for row in preview_daily_count_report %}
+                    <tr>
+                        {% for value in row.values %}
+                        <td>{{ value }}</td>
+                        {% endfor %}
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="100%" class="text-center text-muted py-4">
+                            No data available to preview.
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+     <div class="table-container" id="out-hours-container" style="display: none;">
+        <h3>Out-Working-Hours Report</h3>
+        <br/>
+        <div class="table-responsive">
+            <table>
+                <thead>
+                    <tr>
+                        {% if preview_out_hours_report %}
+                            {% for key in preview_out_hours_report.0.keys %}
+                                <th>{{ key }}</th>
+                            {% endfor %}
+                        {% endif %}
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for row in preview_out_hours_report %}
+                    <tr>
+                        {% for value in row.values %}
+                        <td>{{ value }}</td>
+                        {% endfor %}
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="100%" class="text-center text-muted py-4">
+                            No data available to preview.
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="table-container" id="loi-container" style="display: none;">
+        <h3>LOI Analysis Report</h3>
+        <br/>
+        <div id="charts-wrapper" style="display: flex; flex-direction: column; gap: 40px; padding: 10px;">
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}

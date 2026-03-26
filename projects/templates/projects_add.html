@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Projects | Add
+{% endblock %}
+
+{% load static %}
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/projects_add.css' %}">
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/projects_add.js' %}"></script>
+{% endblock %}
+
+{% block page_header %}Projects{% endblock %}
+
+{% block content %}
+<div id="main-container">
+    <div id="top-nav-actions">
+        <a href="{% url 'projects_list' %}"
+            class="btn-link {% if request.resolver_match.url_name == 'projects_list' %}btn-inactive{% endif %}">
+            <i class="fas fa-plus" style="margin-right: 5px"></i>
+            Explore Projects
+        </a>
+
+        <a href="{% url 'projects_add' %}"
+            class="btn-link {% if request.resolver_match.url_name == 'projects_add' %}btn-inactive{% endif %}">
+            <i class="fas fa-history" style="margin-right: 5px"></i>
+            Add Project
+        </a>
+    </div>
+
+    <div id="form-container" class="container">
+        <h3>Add Project</h3>
+        <br>
+        <form method="POST" enctype="multipart/form-data" novalidate>
+            <div class="form-row">
+                {% csrf_token %}
+                    {% for field in form %}
+                    <div class="input-col">
+                        <label >{{ field.label }}</label>
+                        {{ field }}
+                        {% if field.errors %}
+                        <small class="text-danger">{{ field.errors }}</small>
+                        {% endif %}
+                    </div>
+                    {% endfor %}
+            </div>
+            <hr>
+            <div class="btn-row">
+                <div class="form-btn-container">
+                    <a href="{% url 'projects_list' %}" class="btn btn-secondary">Cancel</a>
+                    <button type="submit" class="btn btn-success px-5">Save Project</button>
+
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

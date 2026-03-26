@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Projects | Edit
+{% endblock %}
+
+{% load static %}
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/projects_edit.css' %}">
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/projects_edit.js' %}"></script>
+{% endblock %}
+
+{% block page_header %}Projects{% endblock %}
+
+{% block content %}
+<div id="main-container">
+    <div id="form-container" class="container">
+        <h3>Edit Project: {{ project.name }}</h3>
+        <h4>ID: #{{ project.pk }}</h4>
+        <br>
+        <form method="POST" enctype="multipart/form-data" novalidate>
+            {% csrf_token %}
+
+            <div class="form-row">
+                {% for field in form %}
+                <div class="input-col">
+                    <label class="form-label fw-bold small text-uppercase text-muted">
+                        {{ field.label }}
+                    </label>
+                    {{ field }}
+                    {% if field.errors %}
+                    <div class="text-danger small mt-1">{{ field.errors }}</div>
+                    {% endif %}
+                    {% if field.help_text %}
+                    <div class="form-text small">{{ field.help_text }}</div>
+                    {% endif %}
+                </div>
+                {% endfor %}
+            </div>
+
+            <hr>
+
+            <div class="btn-row"">
+                <div class=" form-btn-container">
+                <a href="{% url 'projects_list' %}" class="btn btn-secondary">
+                    Back to List
+                </a>
+                <button type="submit" class="btn btn-success px-5">
+                    Update Changes
+                </button>
+            </div>
+    </div>
+    </form>
+</div>
+</div>
+{% endblock %}

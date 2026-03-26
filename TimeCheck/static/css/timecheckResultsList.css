@@ -1,0 +1,163 @@
+/* Animation */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+
+#table-container {
+    background: #ffffff;
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    margin-bottom: 2rem;
+    animation: fadeIn 0.5s ease
+}
+
+#table-container form {
+    border: 1px solid #ececec;
+    border-radius: 15px !important;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05) !important;
+    padding: 20px !important;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+#table-container form .form-row {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    align-items: flex-end;
+    flex-wrap: wrap;
+}
+
+#table-container form .input-col {
+    flex: 1;
+}
+
+#table-container form .input-col .form-control,
+#table-container form .input-col .form-select {
+   min-width: 180px; 
+    height: 38px;   
+    border-radius: 8px;
+    border: 1px solid #dcdcdc;
+    font-size: 0.9rem;
+    padding: 0 12px;   
+}
+
+#table-container form .btn-row {
+    display: flex;
+    justify-content: flex-end;
+}
+
+#table-container form .btn-row .form-btn-container {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    min-width: 200px;
+} 
+
+#table-container form .btn-row .form-btn-container .btn {
+    font-size: 0.85rem !important; 
+    font-weight: 600 !important;   
+    font-family: inherit;          
+    
+    height: 36px;                  
+    display: inline-flex;         
+    align-items: center;
+    justify-content: center;
+    padding: 0 20px !important;   
+    
+    text-decoration: none;        
+    white-space: nowrap;        
+    transition: all 0.3s ease !important;
+}
+
+
+.btn-secondary {
+    background-color: #f8f9fa !important;
+    color: #6c757d !important;
+    border: 1.5px solid #d7d7d7 !important;
+    border-radius: 6px !important;
+    font-weight: 600 !important;
+    
+}
+
+.btn-secondary:hover {
+    background-color: #e2e6ea !important;
+    color: #333 !important;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px var(--header-color);
+}
+
+#table-container form .input-col label {
+    color: #555;
+    font-size: 0.8rem;
+    font-weight: 600 !important; 
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 8px;
+    display: block;
+    padding: 5px;
+}
+.input-col i {
+    margin-right: 8px;
+    color: #3498db; 
+    width: 20px;
+    text-align: center;
+}
+
+table {
+    background-color: #fafafa;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    border: none;
+    margin-top: 20px;
+    width: 100%;
+    border-collapse: collapse;
+}
+
+table thead {
+    background-color: var(--header-color);
+    color: var(--header-text-color);
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    letter-spacing: 1px;
+}
+
+table th {
+    padding: 15px !important;
+    font-weight: 600;
+    border: none;
+    text-align: left;
+}
+
+table tbody tr {
+    transition: all 0.3s ease;
+    border-bottom: 1px solid var(--header-color);
+}
+
+table tbody tr:last-child {
+    border-bottom: none;
+}
+
+table tbody tr:hover {
+    background-color: var(--color-main-bg) !important;
+    transform: translateX(4px);
+    box-shadow: inset 4px 0 0 var(--dark-blue);
+}
+
+table td {
+    padding: 12px 15px !important;
+    vertical-align: middle;
+    color: #444;
+}
+
+.badge {
+    font-weight: 500;
+    padding: 6px 10px;
+    border-radius: 6px;
+    font-size: 0.75rem;
+}

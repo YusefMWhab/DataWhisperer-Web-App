@@ -1,0 +1,124 @@
+/* Animation */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+
+.container {
+    background: #ffffff;
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    margin-bottom: 2rem;
+    animation: fadeIn 0.5s ease
+}
+
+#form-container form {
+    border: 1px solid #ececec;
+    border-radius: 15px !important;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05) !important;
+    padding: 20px !important;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+#form-container form .form-row {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 25px;
+    align-items: flex-end;
+}
+
+#form-container form .input-col {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    flex: 0 0 calc(50% - 25px);
+    min-width: 250px;
+
+}
+#form-container form .input-col:last-child {
+    flex: 0 0 100%;
+}
+
+#form-container form .input-col input[type="text"],
+#form-container form .input-col input[type="file"],
+#form-container form .input-col select {
+  width: 100%;
+    height: 50px;
+    border-radius: 8px;
+    border: 1px solid #dcdcdc;
+    font-size: 0.95rem;
+    padding: 0 15px;
+    transition: border-color 0.2s;
+}
+#form-container form .input-col .form-control:focus {
+    border-color: var(--header-color); 
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(40, 167, 69, 0.1);
+}
+
+#form-container form .btn-row {
+    display: flex;
+    justify-content: flex-end;
+}
+
+#form-container form .btn-row .form-btn-container {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    min-width: 200px;
+} 
+
+#form-container form .btn-row .form-btn-container .btn {
+    font-size: 0.85rem !important; 
+    font-weight: 600 !important;   
+    font-family: inherit;          
+    
+    height: 36px;                  
+    display: inline-flex;         
+    align-items: center;
+    justify-content: center;
+    padding: 0 20px !important;   
+    
+    text-decoration: none;        
+    white-space: nowrap;        
+    transition: all 0.3s ease !important;
+}
+
+
+.btn-secondary {
+    background-color: #f8f9fa !important;
+    color: #6c757d !important;
+    border: 1.5px solid #d7d7d7 !important;
+    border-radius: 6px !important;
+    font-weight: 600 !important;
+    
+}
+
+.btn-secondary:hover {
+    background-color: #e2e6ea !important;
+    color: #333 !important;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px var(--header-color);
+}
+
+#form-container form .input-col label {
+    color: #555;
+    font-size: 0.8rem;
+    font-weight: 600 !important; 
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 8px;
+    display: block;
+    padding: 5px;
+}
+.input-col i {
+    margin-right: 8px;
+    color: #3498db; 
+    width: 20px;
+    text-align: center;
+}
