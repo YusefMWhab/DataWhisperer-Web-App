@@ -52,66 +52,29 @@ Built with a scalable architecture and a clean user experience, the platform hel
 ![Home](assets/login_page.png)
 
 
-## Home Page
+## TimeCheck Tool
+
+![Home](assets/TimeCheck1.png)
+![Home](assets/TimeCheck2.png)
+![Home](assets/TimeCheck3.png)
+![Home](assets/TimeCheck4.png)
+![Home](assets/TimeCheck5.png)
+![Home](assets/TimeCheck6.png)
 
 
 
-## Upload Dataset
+## Validation Hub
 
-![Upload Dataset](assets/upload.png)
+![Home](assets/ValidationHub_page.png)
+![Home](assets/ValidationHub1.png)
+![Home](assets/ValidationHub2.png)
+![Home](assets/ValidationHub3.png)
+![Home](assets/ValidationHub4.png)
 
-## Processing Results
-
-![Processing Results](assets/results.png)
-
-## Dashboard
-
-![Dashboard](assets/dashboard.png)
 
 ---
 
-## ⚙️ Installation
 
-Clone the repository:
-
-```bash
-git clone https://github.com/YusefMWhab/DataWhisperer-Web-App.git
-```
-
-Navigate to the project directory:
-
-```bash
-cd DataWhisperer-Web-App
-```
-
-Install dependencies:
-
-```bash
-pip install -r requirements.txt
-```
-
-Run the application:
-
-```bash
-python app.py
-```
-
----
-
-## 📂 Project Structure
-
-```bash
-DataWhisperer-Web-App/
-│
-├── assets/
-├── templates/
-├── static/
-├── app.py
-├── requirements.txt
-└── README.md
-```
-
----
 
 ## 🎯 Goals
 
