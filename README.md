@@ -49,7 +49,7 @@ Built with a scalable architecture and a clean user experience, the platform hel
 
 ## Login Window
 
-![Uploading Screenshot 2026-05-08 123845.png…]()
+![Home](assets/login_page.png)
 
 
 ## Home Page
