@@ -35,11 +35,10 @@ Built with a scalable architecture and a clean user experience, the platform hel
 ### Backend
 
 * Python
-* Flask / FastAPI *(عدل حسب اللي مستخدمه)*
+* Django
 
 ### Other Tools
 
-* APIs Integration
 * Data Processing Pipelines
 * Automation Scripts
 
@@ -57,21 +56,11 @@ Built with a scalable architecture and a clean user experience, the platform hel
 ## 👨‍💻 Author
 
 Youssef Mohamed
-Software & Automation Engineer
+AI - Python Backend Engineer
 
 * Python Developer
 * Web Applications Developer
 * Data Processing & Automation Enthusiast
-
----
-
-## 📌 Future Improvements
-
-* Real-time collaboration
-* Advanced AI integrations
-* Interactive analytics dashboard
-* Cloud deployment support
-* User authentication system
 
 ---
 
