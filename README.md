@@ -45,37 +45,6 @@ Built with a scalable architecture and a clean user experience, the platform hel
 
 ---
 
-# 📸 Screenshots
-
-## Login Window
-
-![Home](assets/login_page.png)
-
-
-## TimeCheck Tool
-
-![Home](assets/TimeCheck1.png)
-![Home](assets/TimeCheck2.png)
-![Home](assets/TimeCheck3.png)
-![Home](assets/TimeCheck4.png)
-![Home](assets/TimeCheck5.png)
-![Home](assets/TimeCheck6.png)
-
-
-
-## Validation Hub
-
-![Home](assets/ValidationHub_page.png)
-![Home](assets/ValidationHub1.png)
-![Home](assets/ValidationHub2.png)
-![Home](assets/ValidationHub3.png)
-![Home](assets/ValidationHub4.png)
-
-
----
-
-
-
 ## 🎯 Goals
 
 * Reduce manual processing effort
